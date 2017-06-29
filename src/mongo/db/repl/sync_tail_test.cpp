@@ -1195,9 +1195,9 @@ TEST_F(IdempotencyTest, IndexKeyTooLongError) {
     ASSERT_OK(runOp(createCollection()));
     ASSERT_OK(runOp(insert(fromjson("{_id: 1}"))));
 
-    // Key size limit is 1024 for ephemeral storage engine, so two 800 byte fields cannot
+    // Key size limit is 4096 for ephemeral storage engine, so two 2100 byte fields cannot
     // co-exist.
-    std::string longStr(800, 'a');
+    std::string longStr(2100, 'a');
     auto updateOp1 = update(1, BSON("$set" << BSON("x" << longStr)));
     auto updateOp2 = update(1, fromjson("{$set: {x: 1}}"));
     auto updateOp3 = update(1, BSON("$set" << BSON("y" << longStr)));
